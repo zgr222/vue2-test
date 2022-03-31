@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script src="../vue.min.js"></script>
+    <script>
+        // 组件，和vue实例差不多，没有el，data是个方法
+        // 每个组件都只能操作自己的数据，即data，传进来的不能更改，否则出问题
+        var MyButton = {
+            data() {
+                return {
+                    count: 0
+                }
+            },
+            template: `<button @click="count++">当前点击了{{count}}次</button>`
+        }
+
+        // 全局注册一个组件, 然后在别的组件的template中可以使用
+        // Vue.component('MyButton', MyButton);
+
+        // 组件接受外部参数
+        var Title = {
+            props: ['biaoti1', 'biaoti2'],
+            template: `<div>
+                <h1>{{biaoti1}}</h1>
+                <h2>{{biaoti2}}</h2>
+                <button>look</button>
+            </div>
+            `
+        }
+
+        var vm = new Vue({
+            components: {
+                // 局部注册组件
+                MyButton,
+                Title
+            },
+            // 在template中得有一个根节点
+            template: `
+            <div>
+                <MyButton/>
+                <MyButton/>
+                <Title biaoti1='标题1' biaoti2='biaoti1-1'/>
+                <Title biaoti1='标题2' biaoti2='biaoti2-1'/>
+            </div>
+            `
+        });
+        vm.$mount('#app');
+    </script>
+</body>
+
+</html>
